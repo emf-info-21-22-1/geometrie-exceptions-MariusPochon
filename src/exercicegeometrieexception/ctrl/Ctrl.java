@@ -14,22 +14,66 @@ public class Ctrl implements ICtrlIhm {
     
     @Override
     public void selectCalcRadius( String value ) {
-        double valueDouble = Double.parseDouble( value );
-        refIhm.afficheResultatCircle( String.valueOf( refWorker.calcRadiusCircleFromArea( valueDouble ) ) );
+        double valueDouble = 0;
+        try {
+            valueDouble = Double.parseDouble(value);
+            refIhm.afficheResultatCircle(String.valueOf(refWorker.calcRadiusCircleFromArea(valueDouble)));
+            if (valueDouble < 0) {
+                throw new IllegalArgumentException();
+            }
+        } catch (NumberFormatException e) {
+            refIhm.afficheMessage("Entrez une valeur et non du texte");
+
+        } catch (IllegalArgumentException exception) {
+            refIhm.afficheMessage("Entrez une valeur positive");
+
+        }
     }
 
-    @Override
-    public void selectCalcLargeur( String valueArea, String valueLongueur ) {
-        double valueAreaDouble = Double.parseDouble( valueArea );
-        double valueLongueurDouble = Double.parseDouble( valueLongueur );
-        refIhm.afficheResultatRectangle( String.valueOf( refWorker.calcLargeurFromRectangle( valueAreaDouble, valueLongueurDouble ) ) );
+      @Override
+    public void selectCalcLargeur(String valueArea, String valueLongueur) {
+        refIhm.afficheMessage(" ");
+        double valueAreaDouble = 0;
+        double valueLongueurDouble = 0;
+
+        try {
+
+            valueLongueurDouble = Double.parseDouble(valueLongueur);
+            refIhm.afficheResultatRectangle(String.valueOf(refWorker.calcLargeurFromRectangle(valueAreaDouble, valueLongueurDouble)));
+            if (valueLongueurDouble < 0) {
+                throw new IllegalArgumentException();
+            }
+        } catch (NumberFormatException e) {
+            refIhm.afficheMessage("Entrez une valeur et non du texte pour le champ de la longueur");
+
+        } catch (IllegalArgumentException exception) {
+            refIhm.afficheMessage("Entrez une valeur positive pour le champ de la longueur");
+
+        }
+
+        //other
+        try {
+            valueAreaDouble = Double.parseDouble(valueArea);
+
+            refIhm.afficheResultatRectangle(String.valueOf(refWorker.calcLargeurFromRectangle(valueAreaDouble, valueLongueurDouble)));
+            if (valueAreaDouble < 0) {
+                throw new IllegalArgumentException();
+            }
+        } catch (NumberFormatException e) {
+            refIhm.afficheMessage("Entrez une valeur et non du texte pour le champ de l'aire");
+
+        } catch (IllegalArgumentException exception) {
+            refIhm.afficheMessage("Entrez une valeur positive pour le champ de l'aire");
+
+        }
+
     }
 
-    public void setRefIhm( IIhmCtrl refIhm ) {
+    public void setRefIhm(IIhmCtrl refIhm) {
         this.refIhm = refIhm;
     }
 
-    public void setRefWorker( IWrkCtrl refWorker ) {
+    public void setRefWorker(IWrkCtrl refWorker) {
         this.refWorker = refWorker;
     }
 
